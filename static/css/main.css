@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap');
+
+
+#profile i{
+    padding-right: 10px;
+}
+
+#welcome{
+    text-align: center;
+    font-family: 'Anton', sans-serif;
+}
+
+#welcome_text{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Akaya Telivigala', cursive;
+}
+
+
+.main{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+.cards_item {
+    display: flex;
+    padding: 1rem;
+}
+
+
+@media (min-width: 40rem) {
+    .cards_item {
+        width: 50%;
+    }
+}
+
+
+@media (min-width: 56rem) {
+    .cards_item {
+        width: 33.3333%;
+    }
+}
+
+
+.card {
+    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+    border-radius: 10px;
+    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+
+.card_content {
+    padding: 1rem;
+    background: #fdfdff
+}
+
+
+.card_title {
+    font-size: 25px;
+    font-family: 'Anton', sans-serif;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    margin: 0px;
+}
+
+.card_text {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+    font-weight: 400;
+}
+
+.card-btn{
+    padding: 0.8rem;
+    font-size: 14px;
+    text-transform: uppercase;
+    border-radius: 10px;
+    font-weight: 400;
+    display: block;
+    width: 80%;
+    cursor: pointer;
+    border: 3px solid rgba(19, 18, 18, 0.2);
+    background: transparent;}
+
+.card-btn:hover {
+    background-color: #d39bec;
+    }
+
+.card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+#news_head{
+    text-align: center;
+    font-family: 'Anton', sans-serif;
+}
+
+.slider{
+    max-width: 100%;
+    display: flex;
+}
+
+.slider .cards{
+    flex: 1;
+    margin: 0 10px;
+    background: #fdfdff;
+    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+    border-radius: 10px;
+    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.slider .cards .content{
+    padding: 10px 20px;
+}
+
+.slider .cards:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.cards .content .title{
+    font-size: 25px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.cards .content .sub-title{
+    font-size: 20px;
+    font-weight: 500;
+    color: #464444;
+    line-height: 20px;
+    margin-bottom: 10px;
+}
+
+.cards .content .btn{
+    display: block;
+    text-align: left;
+    margin: 10px 0;
+}
+
+.cards .content .btn a{
+    color: #fff;
+    border: none;
+    outline: none;
+    width: 40%;
+    font-size: 17px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: block;
+    background: #e74c3c;
+    text-align: center;
+    font-weight: bold;
+    line-height: 25px;
+    padding-bottom: 10px;
+}
+
+.cards .content .btn a:hover{
+    transform: scale(0.9);
+}
