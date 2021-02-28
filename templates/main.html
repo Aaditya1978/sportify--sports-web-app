@@ -48,7 +48,7 @@
                 Select Sports
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li><a class="dropdown-item" href="{{url_for('sportify')}}">Cricket</a></li>
+                <li><a class="dropdown-item" href="{{url_for('cricket')}}">Cricket</a></li>
                 <li><a class="dropdown-item" href="{{url_for('sportify')}}">Football</a></li>
                 <li><a class="dropdown-item" href="{{url_for('sportify')}}">Basketball</a></li>
               </ul>
@@ -105,7 +105,7 @@
           <div class="card_content">
             <h2 class="card_title">Cricket</h2>
             <p class="card_text">Get Score, live match info and much more about Cricket</p>
-            <button class="card-btn">Know More</button>
+            <a class="card-btn" href="{{url_for('cricket')}}">Know More</a>
           </div>
         </div>
       </li>
@@ -115,7 +115,7 @@
           <div class="card_content">
             <h2 class="card_title">Football</h2>
             <p class="card_text">Get Score, live match info and much more about Football</p>
-            <button class="card-btn">Know More</button>
+            <a class="card-btn" href="{{url_for('sportify')}}">Know More</a>
           </div>
         </div>
       </li>
@@ -125,7 +125,7 @@
           <div class="card_content">
             <h2 class="card_title">Basketball</h2>
             <p class="card_text">Get Score, live match info and much more about Basketball</p>
-            <button class="card-btn">Know More</button>
+            <a class="card-btn" href="{{url_for('sportify')}}">Know More</a>
           </div>
         </div>
       </li>
