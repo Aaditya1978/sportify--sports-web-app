@@ -1,8 +1,10 @@
 # Importing Flask Libraries
-from flask import Flask, render_template,request,jsonify, make_response,session, redirect,url_for
+from flask import Flask, render_template,request,jsonify ,session, redirect,url_for
 from firebase_modules import firebase_user_registerer, firebase_user_checker, firebase_user_loger,firebase_data_fetcher
 from news import sports_news_headline
+from cricket import live_matches, previous_matches
 from dotenv import load_dotenv
+from datetime import date
 import os
 
 
@@ -60,7 +62,7 @@ def login():
 @app.route('/sportify', methods = ['GET'])
 def sportify():
 
-    # Request method post to recieve data
+    # Request method GET
     if request.method == 'GET':
         email = session['email']
         user_data = firebase_data_fetcher(email=email)
@@ -69,6 +71,45 @@ def sportify():
         basketball_news = sports_news_headline(sports='basketball',country='us')
         return render_template('main.html', user_data=user_data, basketball_news=basketball_news,
                                 cricket_news=cricket_news, football_news=football_news)
+
+
+# Route for Getting to cricket page
+@app.route('/cricket', methods = ['GET'])
+def cricket():
+
+    # Request method GET
+    if request.method == 'GET':
+        email = session['email']
+        user_data = firebase_data_fetcher(email=email)
+        matches = live_matches()
+        return render_template('cricket.html', user_data=user_data, matches=matches, date=date.today())
+
+
+# Route for Getting to cricket page
+@app.route('/cricket_score', methods = ['POST'])
+def cricket_score():
+
+    # Request method GET
+    if request.method == 'POST':
+        email = session['email']
+        matchid = request.form['matchid']
+        seriesid = request.form['seriesid']
+        user_data = firebase_data_fetcher(email=email)
+        matches = live_matches()
+        return jsonify({'res':matchid})
+
+
+# Route for Getting to cricket page
+@app.route('/previous_cricket', methods = ['GET'])
+def previous_cricket():
+
+    # Request method GET
+    if request.method == 'GET':
+        email = session['email']
+        user_data = firebase_data_fetcher(email=email)
+        matches = previous_matches()
+        return render_template('previous_cricket.html', user_data=user_data, matches=matches)
+
 
 
 
