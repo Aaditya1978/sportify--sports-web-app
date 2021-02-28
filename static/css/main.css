@@ -88,12 +88,15 @@
 .card-btn{
     padding: 0.8rem;
     font-size: 14px;
+    border: none;
+    outline: none;
+    font-weight: bold;
     text-transform: uppercase;
     border-radius: 10px;
-    font-weight: 400;
     display: block;
-    width: 80%;
+    width: 50%;
     cursor: pointer;
+    color: rgb(32, 32, 32);
     border: 3px solid rgba(19, 18, 18, 0.2);
     background: transparent;}
 
