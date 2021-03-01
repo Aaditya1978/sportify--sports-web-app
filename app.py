@@ -2,7 +2,7 @@
 from flask import Flask, render_template,request,jsonify ,session, redirect,url_for
 from firebase_modules import firebase_user_registerer, firebase_user_checker, firebase_user_loger,firebase_data_fetcher
 from news import sports_news_headline
-from cricket import live_matches, previous_matches
+from cricket import live_matches, previous_matches, cricket_team, cricket_search_by_name
 from dotenv import load_dotenv
 from datetime import date
 import os
@@ -99,7 +99,7 @@ def cricket_score():
         return jsonify({'res':matchid})
 
 
-# Route for Getting to cricket page
+# Route for Getting to Previous cricket matches page
 @app.route('/previous_cricket', methods = ['GET'])
 def previous_cricket():
 
@@ -109,6 +109,42 @@ def previous_cricket():
         user_data = firebase_data_fetcher(email=email)
         matches = previous_matches()
         return render_template('previous_cricket.html', user_data=user_data, matches=matches)
+
+
+# Route for Getting to cricket teams page
+@app.route('/cricket_teams', methods = ['GET'])
+def cricket_teams():
+
+    # Request method GET
+    if request.method == 'GET':
+        email = session['email']
+        user_data = firebase_data_fetcher(email=email)
+        teams = cricket_team()
+        return render_template('cricket_teams.html', user_data=user_data, teams=teams)
+
+
+
+# Route for Getting to player info page
+@app.route('/player', methods = ['GET'])
+def player():
+
+    # Request method GET
+    if request.method == 'GET':
+        email = session['email']
+        user_data = firebase_data_fetcher(email=email)
+        return render_template('player_info.html', user_data=user_data)
+
+
+
+# Route for Getting to player info page
+@app.route('/search_player', methods = ['POST'])
+def search_player():
+
+    # Request method GET
+    if request.method == 'POST':
+        name = request.form['name']
+        players = cricket_search_by_name(name)
+        return jsonify({'players':players})
 
 
 
