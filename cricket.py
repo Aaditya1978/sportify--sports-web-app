@@ -1,11 +1,15 @@
 # Importing required libraries
 import requests
+import cricapi
 from dotenv import load_dotenv
 import os
 
 
 # Loading enviroment variables
 load_dotenv()
+
+# Setting Cricapi key
+cric = cricapi.Cricapi(os.getenv('CRIC_APIKEY'))
 
 
 def live_matches():
@@ -82,6 +86,51 @@ def previous_matches():
             matches.append(datas)
 
     return matches
+
+
+
+def cricket_team():
+    """Return list of all the cricket teams
+
+    Parameters
+    ----------
+    none
+
+    Returns
+    -------
+    list:
+        A list of all the teams
+    """
+
+    url = os.getenv("CRICKET_TEAMS_URL")
+    r = requests.get(url)
+    teams = r.json()
+
+    return teams['content']['popularTeams']
+
+
+
+def cricket_search_by_name(name):
+    """Returns searched list of the cricket players by that name
+
+    Parameters
+    ----------
+    name: str
+        name of the player to be searched
+
+    Returns
+    -------
+    list:
+        A list of all the searched cricket players
+    """
+    try:
+        result = cric.playerFinder({'name':name})
+        if not result['data']:
+            return "not found"
+        else:
+            return result['data']
+    except:
+        return "not found"
 
 
 
