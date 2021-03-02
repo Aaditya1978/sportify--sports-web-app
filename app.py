@@ -2,7 +2,7 @@
 from flask import Flask, render_template,request,jsonify ,session, redirect,url_for
 from firebase_modules import firebase_user_registerer, firebase_user_checker, firebase_user_loger,firebase_data_fetcher
 from news import sports_news_headline
-from cricket import live_matches, previous_matches, cricket_team, cricket_search_by_name
+from cricket import live_matches, previous_matches, cricket_team, cricket_search_by_name,cricket_search_by_id, match_score_live, match_score_previous
 from dotenv import load_dotenv
 from datetime import date
 import os
@@ -85,19 +85,6 @@ def cricket():
         return render_template('cricket.html', user_data=user_data, matches=matches, date=date.today())
 
 
-# Route for Getting to cricket page
-@app.route('/cricket_score', methods = ['POST'])
-def cricket_score():
-
-    # Request method GET
-    if request.method == 'POST':
-        email = session['email']
-        matchid = request.form['matchid']
-        seriesid = request.form['seriesid']
-        user_data = firebase_data_fetcher(email=email)
-        matches = live_matches()
-        return jsonify({'res':matchid})
-
 
 # Route for Getting to Previous cricket matches page
 @app.route('/previous_cricket', methods = ['GET'])
@@ -136,15 +123,58 @@ def player():
 
 
 
-# Route for Getting to player info page
+# Route for Getting player list info
 @app.route('/search_player', methods = ['POST'])
 def search_player():
 
-    # Request method GET
+    # Request method POST
     if request.method == 'POST':
         name = request.form['name']
         players = cricket_search_by_name(name)
         return jsonify({'players':players})
+
+
+
+# Route for Getting to player info by id
+@app.route('/search_player_id', methods = ['POST'])
+def search_player_id():
+
+    # Request method POST
+    if request.method == 'POST':
+        id = request.form['id']
+        player = cricket_search_by_id(id)
+        return jsonify(player)
+
+
+
+# Route for Getting live match score
+@app.route('/match_live', methods = ['POST'])
+def match_live():
+
+    # Request method GET
+    if request.method == 'POST':
+        email = session['email']
+        seriesId = request.form['get_det']
+        matchId = request.form['get_details']
+        user_data = firebase_data_fetcher(email=email)
+        score = match_score_live(seriesId,matchId)
+        return render_template('match_score_live.html', user_data=user_data, score=score)
+
+
+
+# Route for Getting live match score
+@app.route('/match_previous', methods = ['POST'])
+def match_previous():
+
+    # Request method GET
+    if request.method == 'POST':
+        email = session['email']
+        seriesId = request.form['get_det']
+        matchId = request.form['get_details']
+        user_data = firebase_data_fetcher(email=email)
+        score = match_score_previous(seriesId,matchId)
+        return render_template('match_score_live.html', user_data=user_data, score=score)
+
 
 
 
