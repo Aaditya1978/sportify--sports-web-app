@@ -134,16 +134,69 @@ def cricket_search_by_name(name):
 
 
 
-def live_score(match_id):
-    """Return list of all the live matches scores
+def cricket_search_by_id(id):
+    """Returns searched list of the cricket players by that id
+
+    Parameters
+    ----------
+    id: str
+        id of the player to be searched
+
+    Returns
+    -------
+    dict:
+        A dict of all the data of searched cricket player
+    """
+    try:
+        result = cric.playerStats({'pid':int(id)})
+        return result
+    except:
+        return "not found"
+
+
+
+def match_score_live(series_id, match_id):
+    """Return all the data of given live match
 
     Parameters
     ----------
     match_id : int
-        unique id of that live match
+        unique id of that match
+    series_id : int
+        series id of the match
 
     Returns
     -------
     dict
-        matche score of the given match id
+        live match score of the given match id and series id
     """
+
+    url = os.getenv("CRCIKET_SCORE_LIVE_URL")
+    r = requests.get(url + "seriesId=" + str(series_id) + "&matchId=" + str(match_id))
+    score = r.json()
+
+    return score
+
+
+
+def match_score_previous(series_id, match_id):
+    """Return all the data of given previous match
+
+    Parameters
+    ----------
+    match_id : int
+        unique id of that match
+    series_id : int
+        series id of the match
+
+    Returns
+    -------
+    dict
+        scorecard of the given match id and series id
+    """
+
+    url = os.getenv("CRICKET_SCORE_PREVIOUS_URL")
+    r = requests.get(url + "seriesId=" + str(series_id) + "&matchId=" + str(match_id))
+    score = r.json()
+
+    return score
