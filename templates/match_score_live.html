@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
     <!--CSS File Links-->
-    <link rel="stylesheet" href="../static/css/player_info.css">
+    <link rel="stylesheet" href="../static/css/match_score_live.css">
 
 </head>
 <body>
@@ -70,14 +70,166 @@
 
     <!--Welcome Heading-->
     <div id="wel" class="mt-5 bg-success">
-        <h1 class="mb-4" id="welcome">Live Score</h1>
+        <h1 class="mb-4" id="welcome">{{score.match.slug}}</h1>
         <div id="welcome_p">
-            Here you will get Live score of the Match
+            Here you will get Live score of the {{score.match.slug}}
         </div>
     </div>
     <br><br>
 
+    <!--Header Card-->
+    <div class="container">
+    <div class="row">
+        <div class="card col-7">
+            <div class="card-header">
+                <div class="row">
+                    <h4 class="col-6 col-sm-8">{{score.match.slug}}</h4> <span class="col-6 col-sm-2">🔴 LIVE</span>
+                </div>
+                <p class="series_name" id="{{score.match.series.objectId}}">{{score.match.series.longName}}</p>
+                <p class="ground_name" id="{{score.match.objectId}}">{{score.match.ground.longName}}</p>
+                <br>
+                <h5 class="card-title">{{score.match.statusText}}</h5>
+            </div>
+        </div>
 
+        <!--Team Card-->
+        <div class="card col-4">
+            <div class="card-header">
+                <div class="row">
+                    <h5 class="card-title col-6">{{score.match.teams[0].team.longName}}</h5>
+                    {% if score.match.teams[0].score != null %}
+                        <span id="team1_score" class="card-text col-6">{{score.match.teams[0].score}}</span>
+                    {% endif %}
+                </div>
+                <hr>
+                <div class="row">
+                    <h5 class="card-title col-6">{{score.match.teams[1].team.longName}}</h5>
+                    {% if score.match.teams[1].score != null %}
+                        <span id="team2_score" class="card-text col-6">{{score.match.teams[1].score}}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <br><br>
+
+    <!--Score Card-->
+    <div class="container">
+    <h2 class="mb-4">Score Card</h2>
+    <div class="row mb-4">
+        <div class="card col-11">
+            <div class="card-header">
+                <div class="row">
+                    <h6 class="card-title col-3">Batsmen</h6>
+                    <h6 class="card-title col-7 col-sm-1">Runs</h6>
+                    <h6 class="card-title col-7 col-sm-1">Balls</h6>
+                    <h6 class="card-title col-7 col-sm-1">4s</h6>
+                    <h6 class="card-title col-7 col-sm-1">6s</h6>
+                    <h6 class="card-title col-7 col-sm-1">SR</h6>
+                </div>
+                <hr>
+                <div class="row">
+                    <h6 class="card-title col-3" id="bater1">{{score.content.livePerformance.batsmen[0].player.longName}} *</h6>
+                    <p class="card-title col-7 col-sm-1" id="run1">{{score.content.livePerformance.batsmen[0].runs}}</p>
+                    <p class="card-title col-7 col-sm-1" id="ball1">{{score.content.livePerformance.batsmen[0].balls}}</p>
+                    <p class="card-title col-7 col-sm-1" id="four1">{{score.content.livePerformance.batsmen[0].fours}}</p>
+                    <p class="card-title col-7 col-sm-1" id="six1">{{score.content.livePerformance.batsmen[0].sixes}}</p>
+                    <p class="card-title col-7 col-sm-1" id="sr1">{{score.content.livePerformance.batsmen[0].strikerate}}</p>
+                </div>
+                <div class="row">
+                    {% if score.content.livePerformance.batsmen[1] %}
+                    <h6 class="card-title col-3" id="bater2">{{score.content.livePerformance.batsmen[1].player.longName}}</h6>
+                    <p class="card-title col-7 col-sm-1" id="run2">{{score.content.livePerformance.batsmen[1].runs}}</p>
+                    <p class="card-title col-7 col-sm-1" id="ball2">{{score.content.livePerformance.batsmen[1].balls}}</p>
+                    <p class="card-title col-7 col-sm-1" id="four2">{{score.content.livePerformance.batsmen[1].fours}}</p>
+                    <p class="card-title col-7 col-sm-1" id="six2">{{score.content.livePerformance.batsmen[1].sixes}}</p>
+                    <p class="card-title col-7 col-sm-1" id="sr2">{{score.content.livePerformance.batsmen[1].strikerate}}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card col-11">
+            <div class="card-header">
+                <div class="row">
+                    <h6 class="card-title col-3">Bowler</h6>
+                    <h6 class="card-title col-7 col-sm-1">Overs</h6>
+                    <h6 class="card-title col-7 col-sm-1">Runs</h6>
+                    <h6 class="card-title col-7 col-sm-1">Maiden</h6>
+                    <h6 class="card-title col-7 col-sm-1">Wickets</h6>
+                    <h6 class="card-title col-7 col-sm-1">Eco</h6>
+                </div>
+                <hr>
+                <div class="row">
+                    <h6 class="card-title col-3" id="bowler1">{{score.content.livePerformance.bowlers[0].player.longName}}</h6>
+                    <p class="card-title col-7 col-sm-1" id="over1">{{score.content.livePerformance.bowlers[0].overs}}</p>
+                    <p class="card-title col-7 col-sm-1" id="brun1">
+                        {% set points = [0] %}
+                        {%for i in score.content.livePerformance.bowlers[0].lhbPitchMap%}
+                            {% if points.append(points.pop()+ i.runs) %}{% endif %}
+                        {% endfor %}
+                        {% for i in score.content.livePerformance.bowlers[0].rhbPitchMap%}
+                        {% if points.append(points.pop()+ i.runs) %}{% endif %}
+                        {% endfor %}
+                        {{points[0]}}
+                    </p>
+                    <p class="card-title col-7 col-sm-1" id="maid1">{{score.content.livePerformance.bowlers[0].maidens}}</p>
+                    <p class="card-title col-7 col-sm-1" id="wic1">{{score.content.livePerformance.bowlers[0].wickets}}</p>
+                    <p class="card-title col-7 col-sm-1" id="eco1">{{score.content.livePerformance.bowlers[0].economy}}</p>
+                </div>
+                <div class="row">
+                    {% if score.content.livePerformance.bowlers[1] %}
+                    <h6 class="card-title col-3" id="bowler2">{{score.content.livePerformance.bowlers[1].player.longName}}</h6>
+                    <p class="card-title col-7 col-sm-1" id="over2">{{score.content.livePerformance.bowlers[1].overs}}</p>
+                    <p class="card-title col-7 col-sm-1" id="brun2">
+                        {% set points = [0] %}
+                        {%for i in score.content.livePerformance.bowlers[1].lhbPitchMap%}
+                            {% if points.append(points.pop()+ i.runs) %}{% endif %}
+                        {% endfor %}
+                        {% for i in score.content.livePerformance.bowlers[1].rhbPitchMap%}
+                        {% if points.append(points.pop()+ i.runs) %}{% endif %}
+                        {% endfor %}
+                        {{points[0]}}
+                    </p>
+                    <p class="card-title col-7 col-sm-1" id="maid2">{{score.content.livePerformance.bowlers[1].maidens}}</p>
+                    <p class="card-title col-7 col-sm-1" id="wic2">{{score.content.livePerformance.bowlers[1].wickets}}</p>
+                    <p class="card-title col-7 col-sm-1" id="eco2">{{score.content.livePerformance.bowlers[1].economy}}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!--Playing XI-->
+    <br><br>
+    <div class="container">
+        <h2 class="mb-4">Playing XI</h2>
+        <div class="row">
+            <div class="card col-6">
+                <div class="card-header">
+                    <h6>{{score.content.matchPlayers.teamPlayers[0].team.longName}}</h6>
+                </div>
+                <div class="card-body">
+                    {% for i in score.content.matchPlayers.teamPlayers[0].players %}
+                    <p>{{i.player.longName}} ({{i.player.playingRole}})</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card col-6">
+                <div class="card-header">
+                    <h6>{{score.content.matchPlayers.teamPlayers[1].team.longName}}</h6>
+                </div>
+                <div class="card-body">
+                    {% for i in score.content.matchPlayers.teamPlayers[1].players %}
+                    <p>{{i.player.longName}} ({{i.player.playingRole}})</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--Footer-->
     <footer class="mainfooter" role="contentinfo">
@@ -125,7 +277,7 @@
     <!--JS Script Links-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    <script src="../static/js/player_info.js"></script>
+    <script src="../static/js/match_score_live.js"></script>
 
 </body>
 </html>
