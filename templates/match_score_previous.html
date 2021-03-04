@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Title-->
+    <title>Previous Match Score - Sportify</title>
+
+    <!--Bootstrap Link-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+
+    <!--Jquery CDN-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+    <!--Ajax CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+    <!--CSS File Links-->
+    <link rel="stylesheet" href="../static/css/match_score_previous.css">
+
+</head>
+<body>
+
+    <!-- Navbar Start -->
+    <nav class="navbar  navbar-expand-lg fixed-top navbar-dark bg-dark mb-5">
+        <div class="container-fluid">
+            <a class="navbar-brand" style="font-family: Arial, Helvetica, sans-serif;">Sportify</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{url_for('sportify')}}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{url_for('cricket')}}">Cricket</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{url_for('previous_cricket')}}">Previous Matches</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{url_for('cricket_teams')}}">Cricket Teams</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{url_for('player')}}">Player Info</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Sports
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="{{url_for('sportify')}}">Football</a></li>
+                            <li><a class="dropdown-item" href="{{url_for('sportify')}}">Basketball</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <a id="profile" class="btn btn-outline-success me-3"><i class="fas fa-user"></i>{{user_data['name']}}</a>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!--Welcome Heading-->
+    <div id="wel" class="mt-5 bg-success">
+        <h1 class="mb-4" id="welcome">{{score.match.slug}}</h1>
+        <div id="welcome_p">
+            Here you will get Live score of the {{score.match.slug}}
+        </div>
+    </div>
+    <br><br>
+
+    <!--Header Card-->
+    <div class="container">
+    <div class="row">
+        <div class="card col-8">
+            <div class="card-header">
+                <div class="row">
+                    <h4 class="col-6 col-sm-7">{{score.match.slug}}</h4> <span class="col-6 col-sm-4">Player of the match - <b>{{score.content.supportInfo.playersOfTheMatch[0].player.longName}} ({{score.content.supportInfo.playersOfTheMatch[0].team.longName}})</b></span>
+                </div>
+                <p class="series_name" id="{{score.match.series.objectId}}">{{score.match.series.longName}}</p>
+                <p class="ground_name" id="{{score.match.objectId}}">{{score.match.ground.longName}}</p>
+                <br>
+                <h5 class="card-title">{{score.match.statusText}}</h5>
+            </div>
+        </div>
+
+        <!--Team Card-->
+        <div class="card col-4">
+            <div class="card-header">
+                <div class="row">
+                    <h5 class="card-title col-6">{{score.match.teams[0].team.longName}}</h5>
+                    {% if score.match.teams[0].score != null %}
+                        <span id="team1_score" class="card-text col-6">{{score.match.teams[0].score}}</span>
+                    {% endif %}
+                </div>
+                <hr>
+                <div class="row">
+                    <h5 class="card-title col-6">{{score.match.teams[1].team.longName}}</h5>
+                    {% if score.match.teams[1].score != null %}
+                        <span id="team2_score" class="card-text col-6">{{score.match.teams[1].score}}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <br><br>
+
+    <!--Score Card-->
+    <div class="container">
+    <h2 class="mb-4">Score Card</h2>
+    <br>
+    <h3>Innings of {{score.content.scorecard.innings[0].team.longName}}</h3>
+    <div class="row mb-4">
+        <div class="card col-11">
+            <div class="card-header">
+                <div class="row">
+                    <h6 class="card-title col-3">Batsmen</h6>
+                    <h6 class="card-title col-7 col-sm-1">Runs</h6>
+                    <h6 class="card-title col-7 col-sm-1">Balls</h6>
+                    <h6 class="card-title col-7 col-sm-1">4s</h6>
+                    <h6 class="card-title col-7 col-sm-1">6s</h6>
+                    <h6 class="card-title col-7 col-sm-1">SR</h6>
+                </div>
+                <hr>
+                {% for i in score.content.scorecard.innings[0].inningBatsmen %}
+                <div class="row">
+                    <h6 class="card-title col-3" id="bater1">{{i.player.longName}} {% if i.isOut == False and i.runs %}*{% endif %}</h6>
+                    <p class="card-title col-7 col-sm-1" id="run1">{{i.runs}}</p>
+                    <p class="card-title col-7 col-sm-1" id="ball1">{{i.balls}}</p>
+                    <p class="card-title col-7 col-sm-1" id="four1">{{i.fours}}</p>
+                    <p class="card-title col-7 col-sm-1" id="six1">{{i.sixes}}</p>
+                    <p class="card-title col-7 col-sm-1" id="sr1">{{i.strikerate}}</p>
+                </div>
+                {% endfor %}
+                <div class="row">
+                    <h4 class="col-3">Total - {{score.content.scorecard.innings[0].runs}} / {{score.content.scorecard.innings[0].wickets}}</h4>
+                    <h4 class="col-3">Overs - {{score.content.scorecard.innings[0].overs}}</h4>
+                    <h4>Extras - {{score.content.scorecard.innings[0].extras}}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card col-11">
+            <div class="card-header">
+                <div class="row">
+                    <h6 class="card-title col-3">Bowler</h6>
+                    <h6 class="card-title col-7 col-sm-1">Overs</h6>
+                    <h6 class="card-title col-7 col-sm-1">Runs</h6>
+                    <h6 class="card-title col-7 col-sm-1">Maiden</h6>
+                    <h6 class="card-title col-7 col-sm-1">Wickets</h6>
+                    <h6 class="card-title col-7 col-sm-1">Eco</h6>
+                </div>
+                <hr>
+                {% for i in score.content.scorecard.innings[0].inningBowlers%}
+                <div class="row">
+                    <h6 class="card-title col-3" id="bowler1">{{i.player.longName}}</h6>
+                    <p class="card-title col-7 col-sm-1" id="over1">{{i.overs}}</p>
+                    <p class="card-title col-7 col-sm-1" id="brun1">{{i.conceded}}</p>
+                    <p class="card-title col-7 col-sm-1" id="maid1">{{i.maidens}}</p>
+                    <p class="card-title col-7 col-sm-1" id="wic1">{{i.wickets}}</p>
+                    <p class="card-title col-7 col-sm-1" id="eco1">{{i.economy}}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+    <br>
+    <h3>Innings of {{score.content.scorecard.innings[1].team.longName}}</h3>
+    <div class="row mb-4">
+        <div class="card col-11">
+            <div class="card-header">
+                <div class="row">
+                    <h6 class="card-title col-3">Batsmen</h6>
+                    <h6 class="card-title col-7 col-sm-1">Runs</h6>
+                    <h6 class="card-title col-7 col-sm-1">Balls</h6>
+                    <h6 class="card-title col-7 col-sm-1">4s</h6>
+                    <h6 class="card-title col-7 col-sm-1">6s</h6>
+                    <h6 class="card-title col-7 col-sm-1">SR</h6>
+                </div>
+                <hr>
+                {% for i in score.content.scorecard.innings[1].inningBatsmen %}
+                <div class="row">
+                    <h6 class="card-title col-3" id="bater1">{{i.player.longName}} {% if i.isOut == False and i.runs %}*{% endif %}</h6>
+                    <p class="card-title col-7 col-sm-1" id="run1">{{i.runs}}</p>
+                    <p class="card-title col-7 col-sm-1" id="ball1">{{i.balls}}</p>
+                    <p class="card-title col-7 col-sm-1" id="four1">{{i.fours}}</p>
+                    <p class="card-title col-7 col-sm-1" id="six1">{{i.sixes}}</p>
+                    <p class="card-title col-7 col-sm-1" id="sr1">{{i.strikerate}}</p>
+                </div>
+                {% endfor %}
+                <div class="row">
+                    <h4 class="col-3">Total - {{score.content.scorecard.innings[1].runs}} / {{score.content.scorecard.innings[1].wickets}}</h4>
+                    <h4 class="col-3">Overs - {{score.content.scorecard.innings[1].overs}}</h4>
+                    <h4>Extras - {{score.content.scorecard.innings[1].extras}}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card col-11">
+            <div class="card-header">
+                <div class="row">
+                    <h6 class="card-title col-3">Bowler</h6>
+                    <h6 class="card-title col-7 col-sm-1">Overs</h6>
+                    <h6 class="card-title col-7 col-sm-1">Runs</h6>
+                    <h6 class="card-title col-7 col-sm-1">Maiden</h6>
+                    <h6 class="card-title col-7 col-sm-1">Wickets</h6>
+                    <h6 class="card-title col-7 col-sm-1">Eco</h6>
+                </div>
+                <hr>
+                {% for i in score.content.scorecard.innings[1].inningBowlers%}
+                <div class="row">
+                    <h6 class="card-title col-3" id="bowler1">{{i.player.longName}}</h6>
+                    <p class="card-title col-7 col-sm-1" id="over1">{{i.overs}}</p>
+                    <p class="card-title col-7 col-sm-1" id="brun1">{{i.conceded}}</p>
+                    <p class="card-title col-7 col-sm-1" id="maid1">{{i.maidens}}</p>
+                    <p class="card-title col-7 col-sm-1" id="wic1">{{i.wickets}}</p>
+                    <p class="card-title col-7 col-sm-1" id="eco1">{{i.economy}}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!--Playing XI-->
+    <br><br>
+    <div class="container">
+        <h2 class="mb-4">Playing XI</h2>
+        <div class="row">
+            <div class="card col-6">
+                <div class="card-header">
+                    <h6>{{score.content.matchPlayers.teamPlayers[0].team.longName}}</h6>
+                </div>
+                <div class="card-body">
+                    {% for i in score.content.matchPlayers.teamPlayers[0].players %}
+                    <p>{{i.player.longName}} ({{i.player.playingRole}})</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card col-6">
+                <div class="card-header">
+                    <h6>{{score.content.matchPlayers.teamPlayers[1].team.longName}}</h6>
+                </div>
+                <div class="card-body">
+                    {% for i in score.content.matchPlayers.teamPlayers[1].players %}
+                    <p>{{i.player.longName}} ({{i.player.playingRole}})</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Footer-->
+    <footer class="mainfooter" role="contentinfo">
+        <div class="footer-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <!--Column1-->
+                        <div class="footer-pad">
+                            <h4>About Us</h4>
+                            <ul class="list-unstyled">
+                                Sportify is a web app for sports lover
+                                we create web app as per your interest
+                                To know more about us, just follow us.
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                    <!--Column2-->
+                    <div class="footer-pad">
+                        <h4>Facing A Issue</h4>
+                        <ul class="list-unstyled">
+                            <a href="mailto:aadityasinghal1978@gmail.com">Send Email!!</a>
+                        </ul>
+                    </div>
+                </div>
+                    <div class="col-md-4">
+                        <h4>Follow Us</h4>
+                        <ul class="social-network social-circle">
+                            <li><a href="https://twitter.com/aaditya_1978" target="_blank" class="icoFacebook" title="Facebook"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="https://www.linkedin.com/in/aaditya-singhal-a46720192/" target="_blank" class="icoLinkedin" title="Linkedin"><i class="fab fa-linkedin-in"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 copy">
+                        <p class="text-center">&copy; Copyright 2021 - Sportify.  All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--JS Script Links-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+</body>
+</html>
