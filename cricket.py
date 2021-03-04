@@ -200,3 +200,25 @@ def match_score_previous(series_id, match_id):
     score = r.json()
 
     return score
+
+
+
+def team_data(team_id):
+    """Return all the data of given previous match
+
+    Parameters
+    ----------
+    team_id : int
+        unique id of that team
+
+    Returns
+    -------
+    dict
+        data of the given team id
+    """
+
+    url = os.getenv("CRICKET_TEAMS_FIND_URL")
+    r = requests.get(url + str(team_id))
+    data = r.json()
+
+    return data
