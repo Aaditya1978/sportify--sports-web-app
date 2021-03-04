@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Title-->
+    <title>Team {{data.team.longName}} - Sportify</title>
+
+    <!--Bootstrap Link-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+
+    <!--Jquery CDN-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+    <!--Ajax CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+    <!--CSS File Links-->
+    <link rel="stylesheet" href="../static/css/team.css">
+
+</head>
+<body>
+
+    <!-- Navbar Start -->
+    <nav class="navbar  navbar-expand-lg fixed-top navbar-dark bg-dark mb-5">
+        <div class="container-fluid">
+            <a class="navbar-brand" style="font-family: Arial, Helvetica, sans-serif;">Sportify</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{url_for('sportify')}}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{url_for('cricket')}}">Cricket</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{url_for('previous_cricket')}}">Previous Matches</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{url_for('cricket_teams')}}">Cricket Teams</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{url_for('player')}}">Player Info</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Sports
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="{{url_for('sportify')}}">Football</a></li>
+                            <li><a class="dropdown-item" href="{{url_for('sportify')}}">Basketball</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <a id="profile" class="btn btn-outline-success me-3"><i class="fas fa-user"></i>{{user_data['name']}}</a>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!--Welcome Heading-->
+    <div id="wel" class="mt-5 bg-success">
+        <h1 class="mb-4" id="welcome">Team {{data.team.longName}}</h1>
+        <div id="welcome_p">
+            Here you will get Info about team {{data.team.longName}}
+        </div>
+    </div>
+    <br><br>
+
+
+    <!--Upcoming matches and previous matches Cards-->
+    <div class="container">
+        <div class="row">
+            <div class="card col-6 mr-3">
+                <div class="card-header">
+                    <h3>Recent Fixtures of {{data.team.longName}}</h3>
+                </div>
+                <div class="card-body">
+                    {% for i in data.content.recentFixtures %}
+                        <div class="row mb-2">
+                            <h4 class="col-6">{{i.slug}}</h4> <h5 class="col-3">{{i.startDate[0:10]}}</h5>
+                            <p>{{i.series.longName}}</p>
+                            <h5 class="text-muted">{{i.ground.longName}}</h5>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="card col-6">
+                <div class="card-header">
+                    <h3>Recent Results of {{data.team.longName}}</h3>
+                </div>
+                <div class="card-body">
+                    {% for i in data.content.recentResults %}
+                        <div class="row mb-2">
+                            <h4 class="col-6">{{i.slug}}</h4> <h5 class="col-3">{{i.startDate[0:10]}}</h5>
+                            <p class="col-6">{{i.series.longName}}</p> <h6 class="col-3">{% if i.winnerTeamId == i.teams[0].team.objectId %}Winner - {{i.teams[0].team.longName}} {% else %} Winner - {{i.teams[1].team.longName}} {% endif %}</h6>
+                            <h5 class="text-muted">{{i.ground.longName}}</h5>
+                            <h4>Status - {{i.statusText}}</h4>
+                            <form action="{{url_for('match_previous')}}"  method="POST">
+                                <input type="text" style="display: none;" name="get_det" value="{{i.series.objectId}}">
+                                <button class="btn btn-primary details" name="get_details" value="{{i.objectId}}">Get Details</button>
+                            </form>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+
+
+    <!--Top Batsmen cards-->
+    <div class="container">
+        <div class="row">
+            <h3>Top Batsmen of {{data.team.longName}}</h3>
+            <h5 class="text-muted">From {{data.content.topBatsmen.startDate[0:10]}} to {{data.content.topBatsmen.endDate[0:10]}}</h5>
+            <br><br>
+            {% for i in data.content.topBatsmen.batsmen %}
+                <div class="card col-3">
+                    <div class="card-header">
+                        <h4>{{i.matchClass.name}}</h4>
+                    </div>
+                    <div class="card-body">
+                        {% for j in i.stats %}
+                            <h4>{{j.player.longName}}</h4>
+                            <h6 class="tex-t-muted">({{j.player.playingRole}})</h6>
+                            <p>Matches - {{j.matches}}</p>
+                            <p>Runs - {{j.runs}}</p>
+                            <p>Innings - {{j.innings}}</p>
+                            <p>Avg. - {{j.average}}</p>
+                            <p>SR - {{j.strikerate}}</p>
+                            <hr>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <br><br><br>
+
+    <!--Top Bowlers cards-->
+    <div class="container">
+        <div class="row">
+            <h3>Top Bowlers of {{data.team.longName}}</h3>
+            <h5 class="text-muted">From {{data.content.topBowlers.startDate[0:10]}} to {{data.content.topBowlers.endDate[0:10]}}</h5>
+            <br><br>
+            {% for i in data.content.topBowlers.bowlers %}
+                <div class="card col-3">
+                    <div class="card-header">
+                        <h4>{{i.matchClass.name}}</h4>
+                    </div>
+                    <div class="card-body">
+                        {% for j in i.stats %}
+                            <h4>{{j.player.longName}}</h4>
+                            <h6 class="tex-t-muted">({{j.player.playingRole}})</h6>
+                            <p>Matches - {{j.matches}}</p>
+                            <p>Wickets - {{j.wickets}}</p>
+                            <p>Innings - {{j.innings}}</p>
+                            <p>Avg. - {{j.average}}</p>
+                            <p>Eco. - {{j.economy}}</p>
+                            <hr>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <!--Footer-->
+    <footer class="mainfooter" role="contentinfo">
+        <div class="footer-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <!--Column1-->
+                        <div class="footer-pad">
+                            <h4>About Us</h4>
+                            <ul class="list-unstyled">
+                                Sportify is a web app for sports lover
+                                we create web app as per your interest
+                                To know more about us, just follow us.
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                    <!--Column2-->
+                    <div class="footer-pad">
+                        <h4>Facing A Issue</h4>
+                        <ul class="list-unstyled">
+                            <a href="mailto:aadityasinghal1978@gmail.com">Send Email!!</a>
+                        </ul>
+                    </div>
+                </div>
+                    <div class="col-md-4">
+                        <h4>Follow Us</h4>
+                        <ul class="social-network social-circle">
+                            <li><a href="https://twitter.com/aaditya_1978" target="_blank" class="icoFacebook" title="Facebook"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="https://www.linkedin.com/in/aaditya-singhal-a46720192/" target="_blank" class="icoLinkedin" title="Linkedin"><i class="fab fa-linkedin-in"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 copy">
+                        <p class="text-center">&copy; Copyright 2021 - Sportify.  All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--JS Script Links-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+
+</body>
+</html>
