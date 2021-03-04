@@ -92,7 +92,9 @@
                         <img src="../static/images/flags/{{team['id']}}.png" height="150px" class="card-img-top" alt="image">
                         <div class="card-body">
                             <h5 class="card-title">{{team['longName']}}</h5>
-                            <button id="{{team['id']}}" class="btn btn-primary">Get Details</button>
+                            <form action="{{url_for('team')}}" method="POST">
+                                <button name="team_id" value="{{team['objectId']}}" class="btn btn-primary">Get Details</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -117,7 +119,9 @@
                         <img src="../static/images/flags/{{team['id']}}.png" height="150px" class="card-img-top" alt="image">
                         <div class="card-body">
                             <h5 class="card-title">{{team['longName']}}</h5>
-                            <button id="{{team['id']}}" class="btn btn-primary">Get Details</button>
+                            <form action="{{url_for('team')}}" method="POST">
+                                <button name="team_id" value="{{team['objectId']}}" class="btn btn-primary">Get Details</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -142,7 +146,9 @@
                         <img src="../static/images/flags/{{team['id']}}.png" height="150px" class="card-img-top" alt="image">
                         <div class="card-body">
                             <h5 class="card-title">{{team['longName']}}</h5>
-                            <button id="{{team['id']}}" class="btn btn-primary">Get Details</button>
+                            <form action="{{url_for('team')}}" method="POST">
+                                <button name="team_id" value="{{team['objectId']}}" class="btn btn-primary">Get Details</button>
+                            </form>
                         </div>
                     </div>
                 </div>
