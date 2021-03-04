@@ -1,8 +1,8 @@
 # Importing Flask Libraries
-from flask import Flask, render_template,request,jsonify ,session, redirect,url_for
+from flask import Flask, json, render_template,request,jsonify ,session, redirect,url_for
 from firebase_modules import firebase_user_registerer, firebase_user_checker, firebase_user_loger,firebase_data_fetcher
 from news import sports_news_headline
-from cricket import live_matches, previous_matches, cricket_team, cricket_search_by_name,cricket_search_by_id, match_score_live, match_score_previous
+from cricket import live_matches, previous_matches, cricket_team, cricket_search_by_name,cricket_search_by_id, match_score_live, match_score_previous, team_data
 from dotenv import load_dotenv
 from datetime import date
 import os
@@ -162,6 +162,19 @@ def match_live():
 
 
 
+# Route for Getting live match score using ajax
+@app.route('/match_live_ajax', methods = ['POST'])
+def match_live_ajax():
+
+    # Request method POST
+    if request.method == 'POST':
+        seriesId = request.form['seriesId']
+        matchId = request.form['matchId']
+        score = match_score_live(seriesId,matchId)
+        return jsonify(score)
+
+
+
 # Route for Getting live match score
 @app.route('/match_previous', methods = ['POST'])
 def match_previous():
@@ -173,8 +186,21 @@ def match_previous():
         matchId = request.form['get_details']
         user_data = firebase_data_fetcher(email=email)
         score = match_score_previous(seriesId,matchId)
-        return render_template('match_score_live.html', user_data=user_data, score=score)
+        return render_template('match_score_previous.html', user_data=user_data, score=score)
 
+
+
+# Route for Getting team page
+@app.route('/team', methods = ['POST'])
+def team():
+
+    # Request method POST
+    if request.method == 'POST':
+        email = session['email']
+        team_id = request.form['team_id']
+        user_data = firebase_data_fetcher(email=email)
+        data = team_data(team_id=team_id)
+        return render_template('team.html', user_data=user_data,data=data)
 
 
 
