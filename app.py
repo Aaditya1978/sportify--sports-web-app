@@ -6,6 +6,7 @@ from cricket import live_matches, previous_matches, cricket_team, cricket_search
 from dotenv import load_dotenv
 from datetime import date
 import os
+import smtplib
 
 
 
@@ -204,6 +205,50 @@ def team():
 
 
 
+# Route for getting to football Page
+@app.route('/football', methods = ['GET'])
+def football():
+
+    # Request Method GET
+    if request.method == 'GET':
+        email = session['email']
+        user_data = firebase_data_fetcher(email=email)
+        return render_template('football.html', user_data=user_data)
+
+
+
+# Route for getting to football Page
+@app.route('/basketball', methods = ['GET'])
+def basketball():
+
+    # Request Method GET
+    if request.method == 'GET':
+        email = session['email']
+        user_data = firebase_data_fetcher(email=email)
+        return render_template('basketball.html', user_data=user_data)
+
+
+
+# Route for subscribing to updates
+@app.route('/subscribe', methods = ['GET'])
+def subscribe():
+
+    # Request Method GET
+    if request.method == 'GET':
+        email = session['email']
+        user_data = firebase_data_fetcher(email=email)
+        name = user_data['name']
+        message = "You have subscribed to get latest updates for Sportify"
+        message2 = name + " has subcribed to our Sportify updates."
+        try:
+            server = smtplib.SMTP("smtp.gmail.com",587)
+            server.starttls()
+            server.login(os.getenv("EMAIL"),os.getenv("PASSWORD"))
+            server.sendmail(os.getenv("EMAIL"),email, message)
+            server.sendmail(os.getenv("EMAIL"),os.getenv("EMAIL"), message2)
+            return jsonify("success")
+        except:
+            return jsonify("error")
 
 # Running the Flask App
 if __name__ == "__main__":
