@@ -51,15 +51,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{url_for('player')}}">Player Info</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Select Sports
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="{{url_for('sportify')}}">Football</a></li>
-                            <li><a class="dropdown-item" href="{{url_for('sportify')}}">Basketball</a></li>
-                        </ul>
-                    </li>
                 </ul>
                 <form class="d-flex">
                     <a id="profile" class="btn btn-outline-success me-3"><i class="fas fa-user"></i>{{user_data['name']}}</a>
