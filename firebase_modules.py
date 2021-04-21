@@ -10,14 +10,14 @@ load_dotenv()
 
 
 # Configuration Key Of firebase
-firebaseConfig = {"apiKey": os.getenv("FIREBASE_APIKEY"),
-                "authDomain": os.getenv("FIREBASE_AUTHDOMAIN"),
-                "databaseURL": os.getenv("FIREBASE_DATABASEURL"),
-                "projectId": os.getenv("FIREBASE_PROJECTID"),
-                "storageBucket": os.getenv("FIREBASE_STORAGEBUCKET"),
-                "messagingSenderId": os.getenv("FIREBASE_messagingSenderId"),
-                "appId": os.getenv("FIREBASE_appId"),
-                "measurementId": os.getenv("FIREBASE_measurementId")}
+firebaseConfig = {"apiKey": os.environ.get("FIREBASE_APIKEY"),
+                "authDomain": os.environ.get("FIREBASE_AUTHDOMAIN"),
+                "databaseURL": os.environ.get("FIREBASE_DATABASEURL"),
+                "projectId": os.environ.get("FIREBASE_PROJECTID"),
+                "storageBucket": os.environ.get("FIREBASE_STORAGEBUCKET"),
+                "messagingSenderId": os.environ.get("FIREBASE_messagingSenderId"),
+                "appId": os.environ.get("FIREBASE_appId"),
+                "measurementId": os.environ.get("FIREBASE_measurementId")}
 
 
 # Init of Pyrebase
@@ -26,7 +26,7 @@ auth = pirebase.auth()
 
 
 # Init of Firebase
-firebase = firebase.FirebaseApplication(os.getenv("FIREBASE_URL"), None)
+firebase = firebase.FirebaseApplication(os.environ.get("FIREBASE_URL"), None)
 
 
 

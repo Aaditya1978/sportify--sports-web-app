@@ -16,7 +16,7 @@ load_dotenv()
 
 # Init flask app
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = os.environ.get("SECRET_KEY")
 
 
 # Route for home page i.e. Language Selection Page
@@ -243,9 +243,9 @@ def subscribe():
         try:
             server = smtplib.SMTP("smtp.gmail.com",587)
             server.starttls()
-            server.login(os.getenv("EMAIL"),os.getenv("PASSWORD"))
-            server.sendmail(os.getenv("EMAIL"),email, message)
-            server.sendmail(os.getenv("EMAIL"),os.getenv("EMAIL"), message2)
+            server.login(os.environ.get("EMAIL"),os.environ.get("PASSWORD"))
+            server.sendmail(os.environ.get("EMAIL"),email, message)
+            server.sendmail(os.environ.get("EMAIL"),os.environ.get("EMAIL"), message2)
             return jsonify("success")
         except:
             return jsonify("error")

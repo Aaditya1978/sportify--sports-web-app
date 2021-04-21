@@ -9,7 +9,7 @@ import os
 load_dotenv()
 
 # Setting Cricapi key
-cric = cricapi.Cricapi(os.getenv('CRIC_APIKEY'))
+cric = cricapi.Cricapi(os.environ.get('CRIC_APIKEY'))
 
 
 def live_matches():
@@ -26,7 +26,7 @@ def live_matches():
         a list of live matches
     """
 
-    url = os.getenv("CRICKET_LIVE_URL")
+    url = os.environ.get("CRICKET_LIVE_URL")
     r = requests.get(url)
     live = r.json()
 
@@ -64,7 +64,7 @@ def previous_matches():
         a list of previous matches
     """
 
-    url = os.getenv("CRICKET_PREVIOUS_URL")
+    url = os.environ.get("CRICKET_PREVIOUS_URL")
     r = requests.get(url)
     previous = r.json()
 
@@ -102,7 +102,7 @@ def cricket_team():
         A list of all the teams
     """
 
-    url = os.getenv("CRICKET_TEAMS_URL")
+    url = os.environ.get("CRICKET_TEAMS_URL")
     r = requests.get(url)
     teams = r.json()
 
@@ -171,7 +171,7 @@ def match_score_live(series_id, match_id):
         live match score of the given match id and series id
     """
 
-    url = os.getenv("CRCIKET_SCORE_LIVE_URL")
+    url = os.environ.get("CRCIKET_SCORE_LIVE_URL")
     r = requests.get(url + "seriesId=" + str(series_id) + "&matchId=" + str(match_id))
     score = r.json()
 
@@ -195,7 +195,7 @@ def match_score_previous(series_id, match_id):
         scorecard of the given match id and series id
     """
 
-    url = os.getenv("CRICKET_SCORE_PREVIOUS_URL")
+    url = os.environ.get("CRICKET_SCORE_PREVIOUS_URL")
     r = requests.get(url + "seriesId=" + str(series_id) + "&matchId=" + str(match_id))
     score = r.json()
 
@@ -217,7 +217,7 @@ def team_data(team_id):
         data of the given team id
     """
 
-    url = os.getenv("CRICKET_TEAMS_FIND_URL")
+    url = os.environ.get("CRICKET_TEAMS_FIND_URL")
     r = requests.get(url + str(team_id))
     data = r.json()
 

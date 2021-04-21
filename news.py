@@ -9,7 +9,7 @@ load_dotenv()
 
 
 # Init news api client
-newsapi = NewsApiClient(api_key=os.getenv("NEWS_API"))
+newsapi = NewsApiClient(api_key=os.environ.get("NEWS_API"))
 
 
 def sports_news_headline(sports, country) -> dict:
