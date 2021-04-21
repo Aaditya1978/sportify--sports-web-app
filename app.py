@@ -1,5 +1,5 @@
 # Importing Flask Libraries
-from flask import Flask, json, render_template,request,jsonify ,session, redirect,url_for
+from flask import Flask, render_template,request,jsonify ,session, redirect,url_for
 from firebase_modules import firebase_user_registerer, firebase_user_checker, firebase_user_loger,firebase_data_fetcher
 from news import sports_news_headline
 from cricket import live_matches, previous_matches, cricket_team, cricket_search_by_name,cricket_search_by_id, match_score_live, match_score_previous, team_data
@@ -250,8 +250,10 @@ def subscribe():
         except:
             return jsonify("error")
 
+
+
 # Running the Flask App
 if __name__ == "__main__":
 
     #running application
-    app.run(debug=True)
+    app.run(debug=False)
